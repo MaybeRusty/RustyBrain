@@ -4,9 +4,14 @@ from flask_jwt import _jwt, JWTError
 import datetime
 
 from model.admin import Admin
+from model.user import User
 
 def authenticate(username, password, user_type):
-    ret = Admin.find_by_username(username)
+    ret = None
+    if user_type:
+        ret = Admin.find_by_username(username)
+    else:
+        ret = User.find_by_username(username)
     if ret.check() is False:
         return
     if ret.data and ret.data.confirm_password(password):
@@ -15,11 +20,12 @@ def authenticate(username, password, user_type):
 
 def identity(payload):
     uuid = payload['identity']
-    ret = Admin.find_by_uuid(uuid)
+    ret = User.find_by_uuid(uuid)
     if ret.check() is False:
-        return
-    else:
-        return ret.data
+        ret = Admin.find_by_uuid(uuid)
+        if ret.check() is False:
+            return
+    return ret.data
 
 def payload_handle(identity):
     iat = datetime.datetime.utcnow()
