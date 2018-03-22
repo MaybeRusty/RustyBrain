@@ -1,0 +1,7 @@
+Flask
+Flask-RESTful
+Flask-JWT
+Flask-SQLAlchemy
+Flask-Marshmallow
+flask-script
+flask-migrate
