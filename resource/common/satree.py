@@ -98,7 +98,6 @@ class TreeManager:
         if node_uuid is None:
             return RetStatus(False, "invalid node uuid.")
         else:
-            node = None
             try:
                 node = tmp_model.query.filter(tmp_model.node_uuid==node_uuid).one()
             except SQLAlchemyError as e:

@@ -1,5 +1,4 @@
 from flask_restful import Resource, request
-from flask_jwt import jwt_required, current_identity
 import json
 import uuid
 
