@@ -5,6 +5,11 @@ import datetime
 from common.database import db, basic_opt
 from common.schema import ma
 from common.ret_status import RetStatus
+from model.nodetree import NodeTree
+
+node_m2m_user = db.Table('t_relate_node2user',
+                         db.Column('user_uuid', db.String(36), db.ForeignKey('User.uuid')),
+                         db.Column('node_uuid', db.String(36), db.ForeignKey('NodeTree.node_uuid')))
 
 class User(db.Model, basic_opt):
     __tablename__   = "t_auth_user"
@@ -13,6 +18,7 @@ class User(db.Model, basic_opt):
     hash_password   = db.Column(db.String(128), nullable=False)
     login_type      = db.Column(db.Boolean, default=False)
     create_time		= db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    nodes           = db.relationship('NodeTree', secondary=node_m2m_user, lazy='dynamic', backref=db.backref('users', lazy='joined'))
 
     @property
     def password(self):

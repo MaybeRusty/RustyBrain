@@ -74,12 +74,15 @@ class TreeManager:
     """check node uuid exist"""
     def check(self, node_uuid=None):
         tmp_model = self.__model
+        node = None
         if node_uuid is None:
             return RetStatus(False, "invalid node uuid.")
         try:
-            tmp_model.query.filter(tmp_model.node_uuid == node_uuid).exist()
+            node = tmp_model.query.filter(tmp_model.node_uuid == node_uuid).first()
         except SQLAlchemyError as e:
             return RetStatus(False, e.message)
+        if node is None:
+            return RetStatus(False, "nothing be searched.")
         return RetStatus(True)
 
     """delete node and children"""
@@ -152,6 +155,8 @@ class TreeManager:
                     except SQLAlchemyError as e:
                         return RetStatus(False, "find children nodes failed.")
                     return RetStatus(True, data=nodes)
+            elif node is None:
+                return RetStatus(False, "nothing will be search.")
             else:
                 return RetStatus(True, data=node)
 

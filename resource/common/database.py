@@ -14,6 +14,8 @@ class basic_opt:
 		except SQLAlchemyError as e:
 			return RetStatus(False, e.message)
 		return RetStatus(True, "add success.")
+
+	@classmethod
 	def DEL(cls, node):
 		try:
 			db.session.delete(node)
@@ -21,9 +23,19 @@ class basic_opt:
 		except SQLAlchemyError as e:
 			return RetStatus(False, e.message)
 		return RetStatus(True, "delete success.")
+
+	@classmethod
 	def UPDATE(cls):
 		try:
 			db.session.commit()
 		except SQLAlchemyError as e:
 			return RetStatus(False, e.message)
 		return RetStatus(True, "update success.")
+
+	@classmethod
+	def ROLL_BACK(cls):
+		try:
+			db.session.rollback()
+		except SQLAlchemyError as e:
+			return RetStatus(False, e.message)
+		return RetStatus(True, "roll back success.")
