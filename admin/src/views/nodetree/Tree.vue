@@ -1,22 +1,113 @@
 <template>
 	<Row type="flex" align="top" justify="center">
         <Col span="4">
-        	<Tree :data="data1" :render="renderContent" ></Tree>
+        	<Tree :data="data1" :render="renderContent" @on-toggle-expand="setTreeNode"></Tree>
         </Col>
         <Col span="20">
             <Table :data="tableData1" :columns="tableColumns1" stripe></Table>
             <div style="margin: 10px;overflow: hidden">
                 <div style="float: right;">
-                    <Page :total="100" :current="1" @on-change="changePage"></Page>
+                    <Page :total="100" :current="current_page" @on-change="changePage"></Page>
                 </div>
             </div>
-            </Col>
+        </Col>
+        <Modal
+	        v-model="modal1"
+	        title="Common Modal dialog box title"
+	        @on-ok="ok"
+	        @on-cancel="cancel">
+	        <p>Content of dialog</p>
+	        <p>Content of dialog</p>
+	        <p>Content of dialog</p>
+    	</Modal>
     </Row>
 </template>
 <script>
     export default {
         data () {
             return {
+            	current_page: 1,
+            	data1: [
+                    {
+                        title: 'parent 1',
+                        node_uuid: '123213321321312313213',
+                        expand: false,
+                        render: (h, { root, node, data }) => {
+                            return h('span', {
+                                style: {
+                                    display: 'inline-block',
+                                    width: '100%'
+                                }
+                            }, [
+                                h('span', [
+                                    h('Icon', {
+                                        props: {
+                                            type: 'ios-folder-outline'
+                                        },
+                                        style: {
+                                            marginRight: '8px'
+                                        }
+                                    }),
+                                    h('span', data.title)
+                                ]),
+                                h('span', {
+                                    style: {
+                                        display: 'inline-block',
+                                        float: 'right',
+                                        marginRight: '32px'
+                                    }
+                                }, [
+                                    h('Button', {
+                                        props: Object.assign({}, this.buttonProps, {
+                                            icon: 'ios-plus-empty',
+                                            type: 'primary'
+                                        }),
+                                        style: {
+                                            width: '52px'
+                                        },
+                                        on: {
+                                            click: () => {this.$Modal.confirm({title: 'Title',content: '<p>Content of dialog</p><p>Content of dialog</p>',okText: 'OK',cancelText: 'Cancel'})}
+                                        }
+                                    })
+                                ])
+                            ]);
+                        },
+                        children: [
+                            {
+                                title: 'child 1-1',
+                                expand: false,
+                                children: [
+                                    {
+                                        title: 'leaf 1-1-1',
+                                        expand: false
+                                    },
+                                    {
+                                        title: 'leaf 1-1-2',
+                                        expand: false
+                                    }
+                                ]
+                            },
+                            {
+                                title: 'child 1-2',
+                                expand: false,
+                                children: [
+                                    {
+                                        title: 'leaf 1-2-1',
+                                        expand: false
+                                    },
+                                    {
+                                        title: 'leaf 1-2-1',
+                                        expand: false
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                buttonProps: {
+                    type: 'ghost',
+                    size: 'small',
+                },
                 tableData1: this.mockTableData1(),
                 tableColumns1: [
                     {
@@ -107,48 +198,45 @@
                             return h('div', this.formatDate(this.tableData1[params.index].update));
                         }
                     }
-                ],
-                data1: [
-                    {
-                        title: 'parent 1',
-                        expand: true,
-                        children: [
-                            {
-                                title: 'parent 1-1',
-                                expand: true,
-                                children: [
-                                    {
-                                        title: 'leaf 1-1-1'
-                                    },
-                                    {
-                                        title: 'leaf 1-1-2'
-                                    }
-                                ]
-                            },
-                            {
-                                title: 'parent 1-2',
-                                expand: true,
-                                children: [
-                                    {
-                                        title: 'leaf 1-2-1'
-                                    },
-                                    {
-                                        title: 'leaf 1-2-1'
-                                    }
-                                ]
-                            }
-                        ]
-                    }
                 ]
             }
         },
         methods: {
+        	node2Table (current_node) {
+        		let data = []
+        		data.push({
+        			name: current_node.title,
+        			status: Math.floor(Math.random () * 3 + 1),
+        			portrayal: ['City', 'People', 'Cost', 'Life', 'Entertainment'],
+        			people: [
+                            {
+                                n: 'People' + Math.floor(Math.random () * 100 + 1),
+                                c: Math.floor(Math.random () * 1000000 + 100000)
+                            },
+                            {
+                                n: 'People' + Math.floor(Math.random () * 100 + 1),
+                                c: Math.floor(Math.random () * 1000000 + 100000)
+                            },
+                            {
+                                n: 'People' + Math.floor(Math.random () * 100 + 1),
+                                c: Math.floor(Math.random () * 1000000 + 100000)
+                            }
+                        ],
+                    time: Math.floor(Math.random () * 7 + 1),
+                    update: new Date()
+        		})
+        		return data;
+        	},
+        	setTreeNode(payload) {
+        		this.tableData1 = this.node2Table(payload);
+        		this.current_page = 6
+        	},
             mockTableData1 () {
                 let data = [];
-                for (let i = 0; i < 10; i++) {
+                for (let i = 0; i < 15; i++) {
                     data.push({
                         name: 'Business' + Math.floor(Math.random () * 100 + 1),
-                        status: Math.floor(Math.random () * 3 + 1),
+                        status: Math.floor(Math.random ()  * 3 + 1),
                         portrayal: ['City', 'People', 'Cost', 'Life', 'Entertainment'],
                         people: [
                             {
@@ -181,6 +269,75 @@
             changePage () {
                 // The simulated data is changed directly here, and the actual usage scenario should fetch the data from the server
                 this.tableData1 = this.mockTableData1();
+            },
+            renderContent (h, { root, node, data }) {
+                return h('span', {
+                    style: {
+                        display: 'inline-block',
+                        width: '100%'
+                    }
+                }, [
+                    h('span', [
+                        h('Icon', {
+                            props: {
+                                type: 'ios-paper-outline'
+                            },
+                            style: {
+                                marginRight: '8px'
+                            }
+                        }),
+                        h('span', data.title)
+                    ]),
+                    h('span', {
+                        style: {
+                            display: 'inline-block',
+                            float: 'right',
+                            marginRight: '32px'
+                        }
+                    }, [
+                        h('Button', {
+                            props: Object.assign({}, this.buttonProps, {
+                                icon: 'ios-plus-empty'
+                            }),
+                            style: {
+                                marginRight: '8px'
+                            },
+                            on: {
+                                click: () => { this.append(data) }
+                            }
+                        }),
+                        h('Button', {
+                            props: Object.assign({}, this.buttonProps, {
+                                icon: 'ios-minus-empty'
+                            }),
+                            on: {
+                                click: () => { this.remove(root, node, data) }
+                            }
+                        })
+                    ])
+                ]);
+            },
+            append (data) {
+                const children = data.children || [];
+                children.push({
+                    title: 'appended node',
+                    expand: true
+                });
+                this.$set(data, 'children', children);
+            },
+            remove (root, node, data) {
+                const parentKey = root.find(el => el === node).parent;
+                const parent = root.find(el => el.nodeKey === parentKey).node;
+                const index = parent.children.indexOf(data);
+                parent.children.splice(index, 1);
+            },
+            addNode () {
+            	this.$Modal.confirm({
+                    title: 'Title',
+                    content: '<p>Content of dialog</p><p>Content of dialog</p>',
+                    okText: 'OK',
+                    cancelText: 'Cancel'
+                });
             }
         }
     }
