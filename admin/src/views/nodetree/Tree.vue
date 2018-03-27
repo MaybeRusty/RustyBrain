@@ -11,15 +11,6 @@
                 </div>
             </div>
         </Col>
-        <Modal
-	        v-model="modal1"
-	        title="Common Modal dialog box title"
-	        @on-ok="ok"
-	        @on-cancel="cancel">
-	        <p>Content of dialog</p>
-	        <p>Content of dialog</p>
-	        <p>Content of dialog</p>
-    	</Modal>
     </Row>
 </template>
 <script>
@@ -336,6 +327,7 @@
                     render: (h) => {
                         return h('Input', {
                             props: {
+                                type: 'date',
                                 value: this.value,
                                 autofocus: true,
                                 placeholder: 'Please enter your name...'
