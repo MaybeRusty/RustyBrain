@@ -66,7 +66,7 @@
                                             width: '52px'
                                         },
                                         on: {
-                                            click: () => {this.$Modal.confirm({title: 'Title',content: '<p>Content of dialog</p><p>Content of dialog</p>',okText: 'OK',cancelText: 'Cancel'})}
+                                            click: () => { this.addNode() }//() => {this.$Modal.confirm({title: 'Title',content: '<p>Content of dialog</p><p>Content of dialog</p>',okText: 'OK',cancelText: 'Cancel'})}
                                         }
                                     })
                                 ])
@@ -332,12 +332,22 @@
                 parent.children.splice(index, 1);
             },
             addNode () {
-            	this.$Modal.confirm({
-                    title: 'Title',
-                    content: '<p>Content of dialog</p><p>Content of dialog</p>',
-                    okText: 'OK',
-                    cancelText: 'Cancel'
-                });
+                this.$Modal.confirm({
+                    render: (h) => {
+                        return h('Input', {
+                            props: {
+                                value: this.value,
+                                autofocus: true,
+                                placeholder: 'Please enter your name...'
+                            },
+                            on: {
+                                input: (val) => {
+                                    this.value = val;
+                                }
+                            }
+                        })
+                    }
+                })
             }
         }
     }
