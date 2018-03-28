@@ -14,10 +14,20 @@
     </Row>
 </template>
 <script>
+	import PatriarchModals from './components/PatriarchModals.vue'
     export default {
         data () {
             return {
             	current_page: 1,
+            	formData: {
+				    Name: '',
+				    IdentifyId: '',
+				    is_Student: false,
+				    Patriarch: {
+				    	pName: '',
+				    	pContact: ''
+				    }
+				},
             	data1: [
                     {
                         title: 'parent 1',
@@ -192,6 +202,9 @@
                 ]
             }
         },
+        components:{
+            PatriarchModals
+        },
         methods: {
         	node2Table (current_node) {
         		let data = []
@@ -294,7 +307,7 @@
                                 marginRight: '8px'
                             },
                             on: {
-                                click: () => { this.append(data) }
+                                click: () => { this.addNode() }
                             }
                         }),
                         h('Button', {
@@ -323,22 +336,20 @@
                 parent.children.splice(index, 1);
             },
             addNode () {
+            	//this.$Modal.success()
                 this.$Modal.confirm({
                     render: (h) => {
-                        return h('Input', {
+                        return h(PatriarchModals, {
                             props: {
-                                type: 'date',
-                                value: this.value,
-                                autofocus: true,
-                                placeholder: 'Please enter your name...'
+                               	//formItem: this.formData
                             },
                             on: {
-                                input: (val) => {
-                                    this.value = val;
-                                }
+                            	formItem: (value) => { alert(value); }
                             }
-                        })
-                    }
+                             
+                       })
+                    },
+                    onOk: ()=>{ this.$Message.info(this.formData.Name) }
                 })
             }
         }
