@@ -1,23 +1,23 @@
 <template>
     <Form :model="formItem" :label-width="80">
         <FormItem label="Name">
-            <Input v-model="formItem.Name" placeholder="Please input this node name..."></Input>
+            <Input v-model="formItem.Name" @on-change="formBind" placeholder="Please input this node name..."></Input>
         </FormItem>
         <FormItem label="IdentifyId">
-            <Input v-model="formItem.IdentifyId" placeholder="Please input this node identify number..."></Input>
+            <Input v-model="formItem.IdentifyId" @on-change="formBind" placeholder="Please input this node identify number..."></Input>
         </FormItem>
         <FormItem label="Student">
-            <i-switch v-model="formItem.is_Student" size="large">
-                <span slot="open">是</span>
+            <i-switch v-model="formItem.is_Student" @on-change="formBind" size="large">
+                <span slot="open">是</span> 
                 <span slot="close">否</span>
             </i-switch>
         </FormItem>
         <div v-if="formItem.is_Student">
 	        <FormItem label="Patriarch Name">
-	            <Input v-model="formItem.Patriarch.pName" placeholder="Please input patriarch name..."></Input>
+	            <Input v-model="formItem.Patriarch.pName" @on-change="formBind" placeholder="Please input patriarch name..."></Input>
 	        </FormItem>
 	        <FormItem label="Patriarch Contact">
-	            <Input v-model="formItem.Patriarch.pContact" placeholder="Please input patriarch contact..."></Input>
+	            <Input v-model="formItem.Patriarch.pContact" @on-change="formBind"  placeholder="Please input patriarch contact..."></Input>
 	        </FormItem>
 	    </div>
     </Form>
@@ -37,6 +37,11 @@
                     }
                 }
             }
+        },
+        methods:{
+             formBind: function(){
+                this.$emit('formBind', this.formItem)
+             }
         }
     }
 </script>

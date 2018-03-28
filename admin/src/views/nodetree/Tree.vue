@@ -20,14 +20,14 @@
             return {
             	current_page: 1,
             	formData: {
-				    Name: '',
-				    IdentifyId: '',
-				    is_Student: false,
-				    Patriarch: {
-				    	pName: '',
-				    	pContact: ''
-				    }
-				},
+			Name: '123',
+			IdentifyId: '',
+			is_Student: false,
+			Patriarch: {
+				pName: '',
+				pContact: ''
+			}
+		},
             	data1: [
                     {
                         title: 'parent 1',
@@ -67,7 +67,7 @@
                                             width: '52px'
                                         },
                                         on: {
-                                            click: () => { this.addNode() }//() => {this.$Modal.confirm({title: 'Title',content: '<p>Content of dialog</p><p>Content of dialog</p>',okText: 'OK',cancelText: 'Cancel'})}
+                                            click: () => { this.addNode() }
                                         }
                                     })
                                 ])
@@ -336,20 +336,18 @@
                 parent.children.splice(index, 1);
             },
             addNode () {
-            	//this.$Modal.success()
                 this.$Modal.confirm({
                     render: (h) => {
                         return h(PatriarchModals, {
                             props: {
-                               	//formItem: this.formData
+                               	Name: this.formData.Name
                             },
                             on: {
-                            	formItem: (value) => { alert(value); }
+                                formBind: (val)=>{this.formData=val}
                             }
-                             
                        })
                     },
-                    onOk: ()=>{ this.$Message.info(this.formData.Name) }
+                    onOk: ()=>{ this.$Message.info(this.formData.is_Student ? "true" : "false") }
                 })
             }
         }
