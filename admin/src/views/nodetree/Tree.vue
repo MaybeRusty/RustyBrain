@@ -347,7 +347,13 @@
                             }
                        })
                     },
-                    onOk: ()=>{ this.$Message.info(this.formData.is_Student ? "true" : "false") }
+                    onOk: ()=>{
+                    	this.$Message.info('异步验证数据');
+		                setTimeout(() => {
+		                    this.$Modal.remove();
+		                }, 2000);
+                    },
+                    loading: true
                 })
             }
         }
