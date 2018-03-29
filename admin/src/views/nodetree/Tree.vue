@@ -18,6 +18,7 @@
     export default {
         data () {
             return {
+            	vm: this,
             	current_page: 1,
             	formData: {
 			Name: '123',
@@ -336,9 +337,7 @@
                 parent.children.splice(index, 1);
             },
             addNode () {
-                this.$Modal.confirm({
-                    render: (h) => {
-                        return h(PatriarchModals, {
+            	render(PatriarchModals, {
                             props: {
                                	Name: this.formData.Name
                             },
@@ -346,15 +345,26 @@
                                 formBind: (val)=>{this.formData=val}
                             }
                        })
-                    },
-                    onOk: ()=>{
-                    	this.$Message.info('异步验证数据');
-		                setTimeout(() => {
-		                    this.$Modal.remove();
-		                }, 2000);
-                    },
-                    loading: true
-                })
+//              this.$Modal.confirm({
+//                  render: (h) => {
+//                      return h(PatriarchModals, {
+//                          props: {
+//                             	Name: this.formData.Name
+//                          },
+//                          on: {
+//                              formBind: (val)=>{this.formData=val}
+//                          }
+//                     })
+//                  },
+//                  onOk: ()=>{
+////		                setTimeout(() => {
+////		                	
+//////		                	this.$Modal.loading = true;
+////		                    this.$Message.error(this.$Modal.loading ? "true" : "false");
+////		                }, 2000);
+//                  },
+//                  loading: true
+//              })
             }
         }
     }
