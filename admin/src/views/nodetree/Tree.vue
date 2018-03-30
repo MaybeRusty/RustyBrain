@@ -1,5 +1,6 @@
 <template>
-	<Row type="flex" align="top" justify="center">
+    <div id="tree">
+    <Row type="flex"  align="top" justify="center">
         <Col span="4">
         	<Tree :data="data1" :render="renderContent" @on-toggle-expand="setTreeNode"></Tree>
         </Col>
@@ -12,16 +13,21 @@
             </div>
         </Col>
     </Row>
+    <OperaModal :operModal="operModal" :currOpera="currOpera" :formItem="formData"></OperaModal>
+</div>
 </template>
 <script>
-	import PatriarchModals from './components/PatriarchModals.vue'
+    import OperaModal from './components/OperaModal.vue'
     export default {
+        name: "tree",
         data () {
             return {
-            	vm: this,
+                    operReady: false,
+                    operModal: false,
+                    currOpera: -1,
             	current_page: 1,
-            	formData: {
-			Name: '123',
+                    formData: {
+			Name: '',
 			IdentifyId: '',
 			is_Student: false,
 			Patriarch: {
@@ -68,7 +74,10 @@
                                             width: '52px'
                                         },
                                         on: {
-                                            click: () => { this.addNode() }
+                                            click: () => { 
+                                                this.operModal=true;
+                                                this.$Message.info(this.operModal ? "true" : "false");
+                                             }
                                         }
                                     })
                                 ])
@@ -204,7 +213,7 @@
             }
         },
         components:{
-            PatriarchModals
+            OperaModal
         },
         methods: {
         	node2Table (current_node) {
@@ -335,36 +344,6 @@
                 const parent = root.find(el => el.nodeKey === parentKey).node;
                 const index = parent.children.indexOf(data);
                 parent.children.splice(index, 1);
-            },
-            addNode () {
-            	render(PatriarchModals, {
-                            props: {
-                               	Name: this.formData.Name
-                            },
-                            on: {
-                                formBind: (val)=>{this.formData=val}
-                            }
-                       })
-//              this.$Modal.confirm({
-//                  render: (h) => {
-//                      return h(PatriarchModals, {
-//                          props: {
-//                             	Name: this.formData.Name
-//                          },
-//                          on: {
-//                              formBind: (val)=>{this.formData=val}
-//                          }
-//                     })
-//                  },
-//                  onOk: ()=>{
-////		                setTimeout(() => {
-////		                	
-//////		                	this.$Modal.loading = true;
-////		                    this.$Message.error(this.$Modal.loading ? "true" : "false");
-////		                }, 2000);
-//                  },
-//                  loading: true
-//              })
             }
         }
     }
