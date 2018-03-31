@@ -13,7 +13,7 @@
             </div>
         </Col>
     </Row>
-    <OperaModal :operModal="operModal" :currOpera="currOpera" :formItem="formData"></OperaModal>
+    <OperaModal :operModal="operModal" :currOpera="currOpera" @formBind="getMadolData" :formData="formData"></OperaModal>
 </div>
 </template>
 <script>
@@ -22,19 +22,19 @@
         name: "tree",
         data () {
             return {
-                    operReady: false,
-                    operModal: false,
-                    currOpera: -1,
+                operReady: false,
+                operModal: false,
+                currOpera: -1,
             	current_page: 1,
-                    formData: {
-			Name: '',
-			IdentifyId: '',
-			is_Student: false,
-			Patriarch: {
-				pName: '',
-				pContact: ''
-			}
-		},
+                formData: {
+        			Name: '',
+        			IdentifyId: '',
+        			is_Student: false,
+        			Patriarch: {
+        				pName: '',
+        				pContact: ''
+        			}
+                },
             	data1: [
                     {
                         title: 'parent 1',
@@ -344,6 +344,10 @@
                 const parent = root.find(el => el.nodeKey === parentKey).node;
                 const index = parent.children.indexOf(data);
                 parent.children.splice(index, 1);
+            },
+            getMadolData(){
+                this.formData = value
+                this.$Message.success("save success!")
             }
         }
     }
