@@ -4,6 +4,10 @@
 <script>
     export default {
     	name: 'OperaTree',
+    	props:
+    	[
+    		'Node'
+    	],
         data () {
             return {
                 TreeData: [
@@ -44,7 +48,7 @@
                                             width: '52px'
                                         },
                                         on: {
-                                            click: () => { this.append(data) }
+                                            click: () => { this.verifyAdd(data) }
                                         }
                                     })
                                 ])
@@ -88,6 +92,14 @@
                 }
             }
         },
+        watch:{
+        	Node:{
+                handler (val) {
+                	this.append()
+                },
+                deep: true
+        	}
+        },
         methods: {
             renderContent (h, { root, node, data }) {
                 return h('span', {
@@ -122,7 +134,7 @@
                                 marginRight: '8px'
                             },
                             on: {
-                                click: () => { this.append(data) }
+                                click: () => { this.verifyAdd(data) }
                             }
                         }),
                         h('Button', {
@@ -136,7 +148,7 @@
                     ])
                 ]);
             },
-            append (data) {
+            verifyAdd (data) {
                 // const children = data.children || [];
                 // children.push({
                 //     title: 'add node',
@@ -145,6 +157,9 @@
                 // this.$set(data, 'children', children);
             	this.$emit('treeAdd', true)
             },
+            append(){
+            }
+            ,
             remove (root, node, data) {
                 const parentKey = root.find(el => el === node).parent;
                 const parent = root.find(el => el.nodeKey === parentKey).node;
