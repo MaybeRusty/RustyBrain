@@ -80,10 +80,10 @@ export const appRouter = [
         component: Main,
         children: [
             {
-            	path: 'tree',
-            	title: 'Tree',
-            	name: 'node_tree',
-            	component: resolve => { require(['@/views/nodetree/Tree.vue'], resolve); }
+            	path: 'UserData',
+            	title: 'UserData',
+            	name: 'UserData',
+            	component: resolve => { require(['@/views/nodetree/UserData.vue'], resolve); }
             }
         ]
     }
