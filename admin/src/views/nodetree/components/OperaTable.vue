@@ -10,7 +10,7 @@
 </template>
 <script>
     export default {
-        name: 'EditTable',
+        name: 'OperaTable',
         data () {
             return {
                 tableData1: this.mockTableData1(),

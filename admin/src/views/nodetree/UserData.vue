@@ -13,7 +13,7 @@
 </template>
 <script>
     import OperaModal from './components/OperaModal.vue'
-    import EditTable from './components/EditTable.vue'
+    import OperaTable from './components/OperaTable.vue'
     import OperaTree from './components/OperaTree.vue'
     export default {
         components:{
