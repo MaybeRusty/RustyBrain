@@ -355,6 +355,47 @@
         			pContact: ''
         		}
             	this.openModal = value
+            },
+            generateData(type){
+            		let data = [
+            			{
+                        	title: 'Name',
+                        	key: 'name'
+                    	},
+                    	{
+                    		title: 'Identify',
+                    		key: 'identify'
+                    	},
+                    	{
+                    		title: 'Operation',
+                    		key: 'operation'
+                    		render: (h, params) => {
+                            return h('Button', {
+	                                props: {
+	                                	type: 'primary',
+	                                	size: 'small',
+	                                	shape: 'circle',
+	                                	icon: 'edit'
+	                                }
+	                        	}, [
+	                                h('Tag', params.row.people.length),
+	                                h('div', {
+	                                    slot: 'content'
+		                                }, [
+		                                    h('ul', this.tableData1[params.index].people.map(item => {
+		                                        return h('li', {
+		                                            style: {
+		                                                textAlign: 'center',
+		                                                padding: '4px'
+		                                            }
+		                                        }, item.n + '：' + item.c + 'People')
+		                                    }))
+		                                ])
+	                            ]);
+                        	}
+                    	}
+            		]
+            		return data
             }
         }
     }
