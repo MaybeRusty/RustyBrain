@@ -5,7 +5,7 @@
                 <OperaTree @treeAdd="treeAdd"></OperaTree>
             </Col>
             <Col span="20">
-                <EditTable></EditTable>
+                <OperaTable></OperaTable>
             </Col>
         </Row>
         <OperaModal :clearModalForm="clearModalForm" :openModal="openModal" :currOpera="currOpera" :formData="formData" @closeModal="closeModal" @formBind="getMadolData"></OperaModal>
@@ -18,7 +18,7 @@
     export default {
         components:{
             OperaModal,
-            EditTable,
+            OperaTable,
             OperaTree
         },
         data () {
