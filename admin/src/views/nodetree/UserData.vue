@@ -2,7 +2,7 @@
     <div>
         <Row type="flex"  align="top" justify="center">
             <Col span="4">
-                <OperaTree @treeAdd="treeAdd"></OperaTree>
+                <OperaTree :Node="formData" @treeAdd="treeAdd"></OperaTree>
             </Col>
             <Col span="20">
                 <OperaTable></OperaTable>

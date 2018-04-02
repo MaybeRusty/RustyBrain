@@ -10,10 +10,11 @@
     	],
         data () {
             return {
+            	operaNode: Object,
                 TreeData: [
                     {
                         title: 'parent 1',
-                        expand: true,
+                        expand: false,
                         render: (h, { root, node, data }) => {
                             return h('span', {
                                 style: {
@@ -149,15 +150,19 @@
                 ]);
             },
             verifyAdd (data) {
-                // const children = data.children || [];
-                // children.push({
-                //     title: 'add node',
-                //     expand: true
-                // });
-                // this.$set(data, 'children', children);
+                this.operaNode = data
             	this.$emit('treeAdd', true)
             },
             append(){
+            	if(this.operaNode){
+            		const children = this.operaNode.children || [];
+            		children.push({
+	                    title: 'add node',
+	                    expand: true
+                 	});
+                 	this.$set(this.operaNode, 'children', children);
+                 	this.operaNode = Object
+            	}
             }
             ,
             remove (root, node, data) {
