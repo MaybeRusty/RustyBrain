@@ -13,7 +13,7 @@
             </div>
         </Col>
     </Row>
-    <OperaModal :operModal="operModal" :currOpera="currOpera" @formBind="getMadolData" :formData="formData"></OperaModal>
+    <OperaModal :openModal="openModal" :currOpera="currOpera" @closeModal="closeModal" @formBind="getMadolData" :formData="formData"></OperaModal>
 </div>
 </template>
 <script>
@@ -23,17 +23,15 @@
         data () {
             return {
                 operReady: false,
-                operModal: false,
+                openModal: false,
                 currOpera: -1,
             	current_page: 1,
                 formData: {
         			Name: '',
         			IdentifyId: '',
         			is_Student: false,
-        			Patriarch: {
-        				pName: '',
-        				pContact: ''
-        			}
+        			pName: '',
+        			pContact: ''
                 },
             	data1: [
                     {
@@ -75,8 +73,7 @@
                                         },
                                         on: {
                                             click: () => { 
-                                                this.operModal=true;
-                                                this.$Message.info(this.operModal ? "true" : "false");
+                                                this.openModal=true
                                              }
                                         }
                                     })
@@ -345,9 +342,19 @@
                 const index = parent.children.indexOf(data);
                 parent.children.splice(index, 1);
             },
-            getMadolData(){
+            getMadolData(value){
                 this.formData = value
-                this.$Message.success("save success!")
+                this.$Message.info(value.Name)
+            },
+            closeModal(value){
+            	this.formData = {
+            		Name: '',
+        			IdentifyId: '',
+        			is_Student: false,
+        			pName: '',
+        			pContact: ''
+        		}
+            	this.openModal = value
             }
         }
     }
