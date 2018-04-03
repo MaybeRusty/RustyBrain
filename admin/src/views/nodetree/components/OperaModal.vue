@@ -1,5 +1,4 @@
-<template>
-    <div>
+<template id='OperaModal'>
         <Modal v-model="openModal">
             <p slot="header" style="text-align:center">
                 <Icon type="plus-round" v-if="currOpera==-1"></Icon>
@@ -36,26 +35,25 @@
                 <Button type="dashed" size="default" @click.native="formCancel">取消</Button>
             </div>
         </Modal>
-    </div>
 </template>
 <script>
 	
     export default {
         name: 'OperaModal',
-        props:
-        [
-                'formItem',
-                'openModal',
-                'currOpera',
-                'clearModalForm'
-        ],
-        data () {
+        props:{
+                Name: String,
+                IdentifyId: String,
+                is_Student: Boolean,
+                pName: String,
+                pContact: String,
+                openModal: Boolean,
+                currOpera: Number,
+                clearModalForm: Boolean
+        },
+        data (){
         	const getStudent	= ()=>{
         		return this.formObj.is_Student;
         	};
-        	const getForm		= ()=>{
-        		return this.formItem
-        	}
         	const checkPname 	= (rule, value, callback) => {
         		var student_status = getStudent()
         		if(student_status){
@@ -88,7 +86,13 @@
 				}
         	};
             return {
-		        formObj: getForm(),
+                formObj: {
+                        Name: this.Name,
+                        IdentifyId: this.IdentifyId,
+                        is_Student: this.is_Student,
+                        pName: this.pName,
+                        pContact: this.pContact
+                },
                 checkret: true,
                 saveDisabled: true,
                 loading: false,

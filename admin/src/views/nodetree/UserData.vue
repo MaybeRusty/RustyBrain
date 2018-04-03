@@ -2,13 +2,13 @@
     <div>
         <Row type="flex"  align="top" justify="center">
             <Col span="4">
-                <OperaTree :Node="formData" @treeAdd="treeAdd"></OperaTree>
+                <OperaTree :Node="treeNode" @treeAdd="treeAdd"></OperaTree>
             </Col>
             <Col span="20">
                 <OperaTable></OperaTable>
             </Col>
         </Row>
-        <OperaModal :clearModalForm="clearModalForm" :openModal="openModal" :currOpera="currOpera" :formItem="formData" @closeModal="closeModal" @formBind="getMadolData"></OperaModal>
+        <opera-modal :clearModalForm="clearModalForm" :openModal="openModal" :currOpera="currOpera" v-bind="formData" @closeModal="closeModal" @formBind="getMadolData"></opera-modal>
     </div>
 </template>
 <script>
@@ -16,6 +16,7 @@
     import OperaTable from './components/OperaTable.vue'
     import OperaTree from './components/OperaTree.vue'
     export default {
+        name: 'tree',
         components:{
             OperaModal,
             OperaTable,
@@ -34,13 +35,7 @@
                     pName: '',
                     pContact: ''
                 },
-                treeNode: {
-                    Name: '',
-                    IdentifyId: '',
-                    is_Student: false,
-                    pName: '',
-                    pContact: ''
-                }
+                treeNode: {}
             }
         },
         watch:{
@@ -54,8 +49,7 @@
         methods: {
             getMadolData(value){
             	this.$Message.info("get modal data")
-                this.formData = value
-                this.treeNode = this.formData
+                this.treeNode = value
                 this.clearModalForm = true
             },
             closeModal(value){
