@@ -8,25 +8,25 @@
                 <span v-if="currOpera!=-1">编辑</span>
             </p>
             <div style="text-align:center">
-                <Form ref="formData" :model="formData" :rules="ruleValidate" :label-width="80">
-                    <FormItem label="Name" prop="Name" :error="nameState">
-                        <Input v-model="formData.Name" placeholder="Please input this node name..."></Input>
+                <Form ref="formObj" :model="formObj" :rules="ruleValidate" :label-width="80">
+                    <FormItem label="Name" prop="Name">
+                        <Input v-model="formObj.Name" placeholder="Please input this node name..."></Input>
                     </FormItem>
                     <FormItem label="IdentifyId" prop="IdentifyId">
-                        <Input v-model="formData.IdentifyId" placeholder="Please input this node identify number..."></Input>
+                        <Input v-model="formObj.IdentifyId" placeholder="Please input this node identify number..."></Input>
                     </FormItem>
                     <FormItem label="Student" prop="is_Student">
-                        <i-switch v-model="formData.is_Student" size="large">
+                        <i-switch v-model="formObj.is_Student" size="large">
                             <span slot="open">是</span>
                             <span slot="close">否</span>
                         </i-switch>
                     </FormItem>
-                    <div v-if="formData.is_Student">
+                    <div v-if="formObj.is_Student">
             	        <FormItem label="Patriarch Name" prop="pName">
-            	            <Input v-model="formData.pName" placeholder="Please input patriarch name..."></Input>
+            	            <Input v-model="formObj.pName" placeholder="Please input patriarch name..."></Input>
             	        </FormItem>
             	        <FormItem label="Patriarch Contact" prop="pContact">
-            	            <Input v-model="formData.pContact"  placeholder="Please input patriarch contact..."></Input>
+            	            <Input v-model="formObj.pContact"  placeholder="Please input patriarch contact..."></Input>
             	        </FormItem>
             	       </div>
                 </Form>
@@ -44,14 +44,17 @@
         name: 'OperaModal',
         props:
         [
-                'formData',
+                'formItem',
                 'openModal',
                 'currOpera',
-                'clearForm'
+                'clearModalForm'
         ],
         data () {
         	const getStudent	= ()=>{
-        		return this.formData.is_Student;
+        		return this.formObj.is_Student;
+        	};
+        	const getForm		= ()=>{
+        		return this.formItem
         	}
         	const checkPname 	= (rule, value, callback) => {
         		var student_status = getStudent()
@@ -85,6 +88,7 @@
 				}
         	};
             return {
+		        formObj: getForm(),
                 checkret: true,
                 saveDisabled: true,
                 loading: false,
@@ -108,9 +112,9 @@
             }
         },
         watch:{
-            formData:{
+            formObj:{
                 handler (val) {
-                	this.$refs.formData.validate((valid) => {
+                	this.$refs.formObj.validate((valid) => {
                 		if(valid){
                 			this.saveDisabled = false
                 		}else{
@@ -120,13 +124,13 @@
                 },
                 deep: true
             },
-            'formData.is_Student': function(val){
+            'formObj.is_Student': function(val){
             	if(val){
             		this.saveDisabled = true
             	}
             },
-            clearForm: function(val){
-                this.$refs['formData'].resetFields()
+            clearModalForm: function(val){
+                this.$refs['formObj'].resetFields()
             }
         },
         methods:{
@@ -137,7 +141,7 @@
         		this.$emit('closeModal', false)
         	},
             formSubmit(){
-            	this.$emit('formBind', this.formData)
+            	this.$emit('formBind', this.formObj)
             	this.loading = true
             	setTimeout(()=>{}, 2000)
              	this.$Message.info('save success')

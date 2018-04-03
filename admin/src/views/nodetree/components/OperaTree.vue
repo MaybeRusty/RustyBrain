@@ -14,7 +14,7 @@
                 TreeData: [
                     {
                         title: 'parent 1',
-                        expand: false,
+                        expand: true,
                         render: (h, { root, node, data }) => {
                             return h('span', {
                                 style: {
@@ -157,7 +157,7 @@
             	if(this.operaNode){
             		const children = this.operaNode.children || [];
             		children.push({
-	                    title: 'add node',
+	                    title: this.Node.Name,
 	                    expand: true
                  	});
                  	this.$set(this.operaNode, 'children', children);
