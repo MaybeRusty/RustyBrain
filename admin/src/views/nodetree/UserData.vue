@@ -8,7 +8,7 @@
                 <OperaTable></OperaTable>
             </Col>
         </Row>
-        <opera-modal :clearModalForm="clearModalForm" :openModal="openModal" :currOpera="currOpera" v-bind="formData" @closeModal="closeModal" @formBind="getMadolData"></opera-modal>
+        <opera-modal :openModal="openModal" :currOpera="currOpera" :formItem="formData" @closeModal="closeModal" @formBind="getMadolData"></opera-modal>
     </div>
 </template>
 <script>
@@ -27,9 +27,8 @@
                 operReady: false,
                 openModal: false,
                 currOpera: -1,
-                clearModalForm: false,
                 formData: {
-                    Name: '',
+                    Name: '小明',
                     IdentifyId: '',
                     is_Student: false,
                     pName: '',
@@ -50,14 +49,12 @@
             getMadolData(value){
             	this.$Message.info("get modal data")
                 this.treeNode = value
-                this.clearModalForm = true
             },
             closeModal(value){
-                this.clearModalForm = false
-            	this.openModal = value
+            	this.openModal 		= value
             },
             treeAdd(value){
-                this.openModal = value
+                this.openModal 		= value
             }
         }
     }

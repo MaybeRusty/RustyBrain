@@ -1,5 +1,5 @@
 <template id='OperaModal'>
-        <Modal v-model="openModal">
+        <Modal v-model="openModal" :mask-closable="false" :closable="false">
             <p slot="header" style="text-align:center">
                 <Icon type="plus-round" v-if="currOpera==-1"></Icon>
                 <Icon type="edit" v-if="currOpera!=-1"></Icon>
@@ -40,16 +40,11 @@
 	
     export default {
         name: 'OperaModal',
-        props:{
-                Name: String,
-                IdentifyId: String,
-                is_Student: Boolean,
-                pName: String,
-                pContact: String,
-                openModal: Boolean,
-                currOpera: Number,
-                clearModalForm: Boolean
-        },
+        props:[
+                'formItem',
+                'openModal',
+                'currOpera'
+        ],
         data (){
         	const getStudent	= ()=>{
         		return this.formObj.is_Student;
@@ -67,7 +62,6 @@
         		}else{
         			callback();
         		}
-        		
         	};
         	const checkPcontact	= (rule, value, callback) => {
         		var student_status = getStudent()
@@ -86,7 +80,7 @@
 				}
         	};
             return {
-                formObj: JSON.parse(JSON.stringify(this.formItem))
+                formObj: JSON.parse(JSON.stringify(this.formItem)),
                 checkret: true,
                 saveDisabled: true,
                 loading: false,
@@ -127,8 +121,11 @@
             		this.saveDisabled = true
             	}
             },
-            clearModalForm: function(val){
-                this.$refs.formObj.resetFields()
+            openModal: function(val){
+            	this.$Message.info(val ? "this is true" : "this is false")
+            	if(val === false){
+            		this.$refs.formObj.resetFields()
+            	}
             }
         },
         methods:{
@@ -139,7 +136,7 @@
         		this.$emit('closeModal', false)
         	},
             formSubmit(){
-            	this.$emit('formBind', this.formObj)
+            	this.$emit('formBind', JSON.parse(JSON.stringify(this.formObj)))
             	this.loading = true
             	setTimeout(()=>{}, 2000)
              	this.$Message.info('save success')
