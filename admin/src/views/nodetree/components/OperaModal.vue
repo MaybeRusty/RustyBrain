@@ -86,13 +86,7 @@
 				}
         	};
             return {
-                formObj: {
-                        Name: this.Name,
-                        IdentifyId: this.IdentifyId,
-                        is_Student: this.is_Student,
-                        pName: this.pName,
-                        pContact: this.pContact
-                },
+                formObj: JSON.parse(JSON.stringify(this.formItem))
                 checkret: true,
                 saveDisabled: true,
                 loading: false,
@@ -134,7 +128,7 @@
             	}
             },
             clearModalForm: function(val){
-                this.$refs['formObj'].resetFields()
+                this.$refs.formObj.resetFields()
             }
         },
         methods:{
