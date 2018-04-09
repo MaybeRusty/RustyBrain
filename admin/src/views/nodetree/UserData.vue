@@ -5,22 +5,25 @@
                 <OperaTree :Node="treeNode" @treeAdd="treeAdd"></OperaTree>
             </Col>
             <Col span="20">
-                <OperaTable></OperaTable>
+                <!--<OperaTable></OperaTable>-->
+                <can-edit-table v-model="tableData" :hoverShow="false" :editIncell="true" :columns-list="tableColumns"></can-edit-table>
             </Col>
         </Row>
         <opera-modal :openModal="openModal" :currOpera="currOpera" :formItem="formData" @closeModal="closeModal" @formBind="getMadolData"></opera-modal>
     </div>
 </template>
 <script>
-    import OperaModal from './components/OperaModal.vue'
-    import OperaTable from './components/OperaTable.vue'
-    import OperaTree from './components/OperaTree.vue'
+    import OperaModal   from './components/OperaModal.vue'
+    import OperaTable   from './components/OperaTable.vue'
+    import OperaTree    from './components/OperaTree.vue'
+    import canEditTable from './components/canEditTable.vue'
     export default {
         name: 'tree',
         components:{
             OperaModal,
             OperaTable,
-            OperaTree
+            OperaTree,
+            canEditTable
         },
         data () {
             return {
@@ -34,8 +37,40 @@
                     pName: '',
                     pContact: ''
                 },
-                treeNode: {}
+                treeNode: {},
+                tableColumns: [],
+                tableData: []
             }
+        },
+        created () {
+        	this.tableColumns = [
+        		{
+        			title: 'Name',
+        			key: 'Name',
+        			editable: true
+        		},
+        		{
+        			title: 'identify',
+        			key: 'IdentifyId',
+        			editable: true
+        		},
+        		{
+        			title: '操作',
+        			align: 'center',
+        			width: 180,
+        			key: 'handle',
+        			handle: ['edit', 'delete']
+    			}
+        	]
+        	this.tableData = [
+        		{
+        			Name: '小明',
+                    IdentifyId: '12121212121212121212',
+                    is_Student: false,
+                    pName: '小强',
+                    pContact: '18192034329'
+        		}
+        	]
         },
         watch:{
         	formData:{
