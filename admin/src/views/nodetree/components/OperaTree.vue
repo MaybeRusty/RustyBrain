@@ -135,7 +135,7 @@
                                 marginRight: '8px'
                             },
                             on: {
-                                click: () => { this.verifyAdd(data) }
+                                click: () => { this.verifyAdd(data, node) }
                             }
                         }),
                         h('Button', {
@@ -149,8 +149,9 @@
                     ])
                 ]);
             },
-            verifyAdd (data) {
+            verifyAdd (data, node) {
                 this.operaNode = data
+                alert(node.children)
             	this.$emit('treeAdd', true)
             },
             append(){

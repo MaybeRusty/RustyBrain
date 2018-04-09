@@ -38,30 +38,29 @@
                     pContact: ''
                 },
                 treeNode: {},
-                tableColumns: [],
+                tableColumns: [
+        		    {
+        		    	title: 'Name',
+        		    	key: 'Name',
+        		    	editable: true
+        		    },
+        		    {
+        		    	title: 'identify',
+        		    	key: 'IdentifyId',
+        		    	editable: true
+        		    },
+        		    {
+        		    	title: '操作',
+        		    	align: 'center',
+        		    	width: 180,
+        		    	key: 'handle',
+        		    	handle: ['edit', 'delete']
+    			    }
+        		],
                 tableData: []
             }
         },
         created () {
-        	this.tableColumns = [
-        		{
-        			title: 'Name',
-        			key: 'Name',
-        			editable: true
-        		},
-        		{
-        			title: 'identify',
-        			key: 'IdentifyId',
-        			editable: true
-        		},
-        		{
-        			title: '操作',
-        			align: 'center',
-        			width: 180,
-        			key: 'handle',
-        			handle: ['edit', 'delete']
-    			}
-        	]
         	this.tableData = [
         		{
         			Name: '小明',
