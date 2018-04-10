@@ -150,27 +150,29 @@
                 ]);
             },
             GenerateData(value){
-            	alert(JSON.stringify(value))
             	let data = []
-            	value.forEach((value, key)=>{
-            		if(key === "title"){
-            			data.push({
-            					"Name": value,
-            					"IdentifyId": "01",
-            					"Property": true})
-            		}
-            		if(key === "chidlren"){
-            			value.forEach((value, key)=>{
-            				if(key === "title"){
-            					data.push({
-            						"Name": value,
-            						"IdentifyId": "02",
-            						"Property": false})
-            				}
-            			})
-            		}
-            	})
-            	
+                for(var  key in value)
+                {
+                        if(key === "title"){
+                            data.push({
+                                    "Name": value[key],
+                                    "IdentifyId": "01",
+                                    "Property": true,
+                                    "NodeKey" : value['nodeKey']})
+                        }
+                        if(key === "children"){
+                            for(var key1 in value[key])
+                            {
+                                if(value[key][key1].title){
+                                    data.push({
+                                        "Name": value[key][key1].title,
+                                        "IdentifyId": "02",
+                                        "Property": false,
+                                        "NodeKey" : value[key][key1].nodeKey})
+                                }
+                            }
+                        }
+                }
             	this.$emit('CheckOutData', data)
             	
             },

@@ -6,10 +6,10 @@
             </Col>
             <Col span="20">
                 <!--<OperaTable></OperaTable>-->
-                <can-edit-table v-model="tableData" :hoverShow="false" :editIncell="true" :columns-list="tableColumns"></can-edit-table>
+                <can-edit-table v-model="tableData" :hoverShow="false" :editIncell="true" :columns-list="tableColumns" @on-change="ChangeTableData" @on-cell-change="ChangeTableCol"></can-edit-table>
             </Col>
         </Row>
-        <opera-modal :openModal="openModal" :currOpera="currOpera" :formItem="formData" @closeModal="closeModal" @formBind="getMadolData"></opera-modal>
+        <opera-modal :openModal="openModal" :currOpera="currOpera" :formItem="formData" @closeModal="closeModal" @formBind="ChangeTableRow"></opera-modal>
     </div>
 </template>
 <script>
@@ -77,8 +77,6 @@
                 tableData: []
             }
         },
-        created () {
-        },
         watch:{
         	formData:{
         		handler (val){
@@ -100,6 +98,12 @@
             },
             GenerateData(value){
             	this.tableData = value
+            },
+            ChangeTableRow(value, index){
+                alert(JSON.stringify(value[index]))
+            },
+            ChangeTableCol(value, index, key){
+                alert(JSON.stringify(value[index]))
             }
         }
     }
