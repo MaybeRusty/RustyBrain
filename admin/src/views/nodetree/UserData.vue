@@ -2,7 +2,7 @@
     <div>
         <Row type="flex"  align="top" justify="center">
             <Col span="4">
-                <OperaTree :Node="treeNode" @treeAdd="treeAdd"></OperaTree>
+                <OperaTree :Node="treeNode" @treeAdd="treeAdd" @CheckOutData="GenerateData"></OperaTree>
             </Col>
             <Col span="20">
                 <!--<OperaTable></OperaTable>-->
@@ -40,14 +40,31 @@
                 treeNode: {},
                 tableColumns: [
         		    {
-        		    	title: 'Name',
+        		    	title: '名称',
         		    	key: 'Name',
         		    	editable: true
         		    },
         		    {
-        		    	title: 'identify',
+        		    	title: '身份识别码',
         		    	key: 'IdentifyId',
         		    	editable: true
+        		    },
+        		    {
+        		    	title: '管理节点',
+        		    	key: 'Property',
+        		    	render: (h, params) => {
+                            const row = params.row;
+                            const color = row.Property === true ? 'blue' : 'green';
+                            const text = row.Property === true ? 'Manager' : 'Member';
+
+                            return h('Tag', {
+                                props: {
+                                    type: 'dot',
+                                    color: color
+                                }
+                            }, text);
+                        },
+        		    	editable: false
         		    },
         		    {
         		    	title: '操作',
@@ -61,15 +78,6 @@
             }
         },
         created () {
-        	this.tableData = [
-        		{
-        			Name: '小明',
-                    IdentifyId: '12121212121212121212',
-                    is_Student: false,
-                    pName: '小强',
-                    pContact: '18192034329'
-        		}
-        	]
         },
         watch:{
         	formData:{
@@ -89,6 +97,9 @@
             },
             treeAdd(value){
                 this.openModal 		= value
+            },
+            GenerateData(value){
+            	this.tableData = value
             }
         }
     }

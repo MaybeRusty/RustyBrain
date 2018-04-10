@@ -1,5 +1,5 @@
 <template>
-    <Tree :data="TreeData" :render="renderContent"></Tree>
+    <Tree :data="TreeData" :render="renderContent" @on-toggle-expand="GenerateData"></Tree>
 </template>
 <script>
     export default {
@@ -14,7 +14,7 @@
                 TreeData: [
                     {
                         title: 'parent 1',
-                        expand: true,
+                        expand: false,
                         render: (h, { root, node, data }) => {
                             return h('span', {
                                 style: {
@@ -49,7 +49,7 @@
                                             width: '52px'
                                         },
                                         on: {
-                                            click: () => { this.verifyAdd(data) }
+                                            click: () => { this.verifyAdd(root, data, node) }
                                         }
                                     })
                                 ])
@@ -58,29 +58,29 @@
                         children: [
                             {
                                 title: 'child 1-1',
-                                expand: true,
+                                expand: false,
                                 children: [
                                     {
                                         title: 'leaf 1-1-1',
-                                        expand: true
+                                        expand: false
                                     },
                                     {
                                         title: 'leaf 1-1-2',
-                                        expand: true
+                                        expand: false
                                     }
                                 ]
                             },
                             {
                                 title: 'child 1-2',
-                                expand: true,
+                                expand: false,
                                 children: [
                                     {
                                         title: 'leaf 1-2-1',
-                                        expand: true
+                                        expand: false
                                     },
                                     {
                                         title: 'leaf 1-2-1',
-                                        expand: true
+                                        expand: false
                                     }
                                 ]
                             }
@@ -135,7 +135,7 @@
                                 marginRight: '8px'
                             },
                             on: {
-                                click: () => { this.verifyAdd(data, node) }
+                                click: () => { this.verifyAdd(root, node, data) }
                             }
                         }),
                         h('Button', {
@@ -149,9 +149,34 @@
                     ])
                 ]);
             },
-            verifyAdd (data, node) {
+            GenerateData(value){
+            	alert(JSON.stringify(value))
+            	let data = []
+            	value.forEach((value, key)=>{
+            		if(key === "title"){
+            			data.push({
+            					"Name": value,
+            					"IdentifyId": "01",
+            					"Property": true})
+            		}
+            		if(key === "chidlren"){
+            			value.forEach((value, key)=>{
+            				if(key === "title"){
+            					data.push({
+            						"Name": value,
+            						"IdentifyId": "02",
+            						"Property": false})
+            				}
+            			})
+            		}
+            	})
+            	
+            	this.$emit('CheckOutData', data)
+            	
+            },
+            verifyAdd (root, node, data) {
                 this.operaNode = data
-                alert(node.children)
+//              let tmp_node = JSON.stringify(data)
             	this.$emit('treeAdd', true)
             },
             append(){
