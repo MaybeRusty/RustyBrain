@@ -6,7 +6,9 @@
     	name: 'OperaTree',
     	props:
     	[
-    		'Node'
+    		'Node',
+    		'updateTree',
+    		'deleteTree'
     	],
         data () {
             return {
@@ -99,6 +101,14 @@
                 	this.append()
                 },
                 deep: true
+        	},
+        	updateTree:{
+        		handler(val){
+        			var Key = this.updateTree.nodeKey
+        			let node = root.find
+        			alert(JSON.stringify(this.updateTree))
+        		},
+        		deep: true
         	}
         },
         methods: {

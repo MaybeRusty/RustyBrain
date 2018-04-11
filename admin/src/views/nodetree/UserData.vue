@@ -2,7 +2,7 @@
     <div>
         <Row type="flex"  align="top" justify="center">
             <Col span="4">
-                <OperaTree :Node="treeNode" @treeAdd="treeAdd" @CheckOutData="GenerateData"></OperaTree>
+                <OperaTree :updateTree="updateTree" :deleteTree="deleteTree" :Node="treeNode" @treeAdd="treeAdd" @CheckOutData="GenerateData"></OperaTree>
             </Col>
             <Col span="20">
                 <!--<OperaTable></OperaTable>-->
@@ -74,7 +74,9 @@
         		    	handle: ['edit', 'delete']
     			    }
         		],
-                tableData: []
+                tableData:  [],
+                updateTree: {},
+                deleteTree: {}
             }
         },
         watch:{
@@ -97,13 +99,13 @@
                 this.openModal 		= value
             },
             GenerateData(value){
-            	this.tableData = value
+            	this.tableData  = value
             },
             ChangeTableRow(value, index){
-                alert(JSON.stringify(value[index]))
+            	this.updateTree = value[index]
             },
             ChangeTableCol(value, index, key){
-                alert(JSON.stringify(value[index]))
+            	this.updateTree = value[index]
             }
         }
     }
